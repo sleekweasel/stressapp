@@ -8,6 +8,13 @@ Discussion group: https://groups.google.com/d/forum/stressapptest-discuss
 
 ## Build
 ```
+Populate and commit a container with the NDK:
+
+$ docker run –name my-populated-ndk -v $HOME:$HOME -w $PWD bitriseio/android-ndk ./gradlew build
+$ docker commit my-populated-ndk bitriseio/android-ndk:populated
+
+Build with it
+
 $ docker run --rm -v $HOME:$HOME -w $PWD -it --entrypoint /bin/bash bitriseio/android-ndk:populated
 # cd stressapptest
 # ndk-build
@@ -18,6 +25,9 @@ $ docker run --rm -v $HOME:$HOME -w $PWD -it --entrypoint /bin/bash bitriseio/an
 [x86_64] Executable     : stressapptest
 [x86_64] Install        : stressapptest => libs/x86_64/stressapptest
 # exit
+
+Copy it into your emulator container and run it:
+
 $ docker cp libs/x86_64/stressapptest emulator-container:/
 $ docker-enter emulator-container
 # adb push /stressapptest  /data/local/tmp/
